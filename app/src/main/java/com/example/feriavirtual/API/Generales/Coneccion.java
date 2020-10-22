@@ -1,29 +1,17 @@
-package com.example.feriavirtual.API;
-
-import android.content.Context;
+package com.example.feriavirtual.API.Generales;
 import android.os.AsyncTask;
 import android.util.Log;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 
-public class coneccion extends AsyncTask<String, Void, String>{
+public class Coneccion extends AsyncTask<String, Void, String>{
 
     public DonwloadInterface delegate;
     public interface DonwloadInterface{
@@ -83,14 +71,14 @@ public class coneccion extends AsyncTask<String, Void, String>{
                 }
                 bufferedReader.close();
 
-                Log.d("test", stringBuilder.toString());
+                Log.d("test1", stringBuilder.toString());
                 return stringBuilder.toString();
             } else {
-                Log.e("test", connection.getResponseMessage());
+                Log.e("test2", connection.getResponseMessage());
                 return null;
             }
         } catch (Exception exception){
-            Log.e("test", exception.toString());
+            Log.e("test3", exception.toString());
             return null;
         } finally {
             if (connection != null){
@@ -118,7 +106,6 @@ public class coneccion extends AsyncTask<String, Void, String>{
     protected String doInBackground(String... strings) {
         String data ="";
         try{
-            //data = GetConsultaData(new URL("http://192.168.8.100/SX.Servicio.Generico/api/values"));
             data = PostConsultaData(new URL("http://192.168.8.100/SX.Servicio.Generico/api/usuario/authenticate/true"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -131,6 +118,5 @@ public class coneccion extends AsyncTask<String, Void, String>{
         super.onPostExecute(s);
 
         delegate.onDownload(s);
-        Log.d("Manzana", s);
     }
 }
