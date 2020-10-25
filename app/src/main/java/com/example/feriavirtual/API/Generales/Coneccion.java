@@ -13,38 +13,33 @@ import java.nio.charset.Charset;
 
 public class Coneccion extends AsyncTask<String, Void, String>{
 
+   private String TipoPeticion;
+    private String RutaPeticion;
+    private JSONObject jsonPeticion;
+
+    public Coneccion(String tipoPeticion, String rutaPeticion, JSONObject jsonPeticion) {
+        this.TipoPeticion = tipoPeticion;
+        this.RutaPeticion = rutaPeticion;
+        this.jsonPeticion = jsonPeticion;
+    }
+
+    public String getTipoPeticion() {
+        return TipoPeticion;
+    }
+
+    public String getRutaPeticion() {
+        return RutaPeticion;
+    }
+
+    public JSONObject getJsonPeticion() {
+        return jsonPeticion;
+    }
+
     public DonwloadInterface delegate;
     public interface DonwloadInterface{
         void onDownload(String data);
     }
-    public String GetConsultaData(URL url) throws IOException {
-        String jsonResponse = "";
-        HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
-
-        try{
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.connect();
-
-            inputStream  = urlConnection.getInputStream();
-            jsonResponse =readFromStream(inputStream);
-        }catch (IOException e){
-            e.printStackTrace();
-        }finally {
-            if(urlConnection != null){
-                urlConnection.disconnect();
-            }
-            if(inputStream != null){
-                inputStream.close();
-            }
-        }
-        return jsonResponse;
-    }
-
-    public String PostConsultaData(URL urls){
+    public String GetConsultaData(URL urls) throws IOException {
         HttpURLConnection connection = null;
 
         try {
@@ -56,10 +51,7 @@ public class Coneccion extends AsyncTask<String, Void, String>{
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Accept", "application/json");
             OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("Rut", "25180038-3");
-            jsonObject.put("password", "87654321");
-            streamWriter.write(jsonObject.toString());
+            streamWriter.write(getJsonPeticion().toString());
             streamWriter.flush();
             StringBuilder stringBuilder = new StringBuilder();
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
@@ -87,26 +79,58 @@ public class Coneccion extends AsyncTask<String, Void, String>{
         }
     }
 
-    private String readFromStream(InputStream inputStream) throws IOException {
-        StringBuilder output = new StringBuilder();
-        if(inputStream != null){
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-            BufferedReader reader = new BufferedReader(inputStreamReader);
-            String line = reader.readLine();
-            while (line != null){
-                output.append(line);
-                line = reader.readLine();
+    public String PostConsultaData(URL urls){
+        HttpURLConnection connection = null;
+
+        try {
+            URL url=new URL(urls.toString());
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "application/json");
+            OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
+            streamWriter.write(getJsonPeticion().toString());
+            streamWriter.flush();
+            StringBuilder stringBuilder = new StringBuilder();
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(streamReader);
+                String response = null;
+                while ((response = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(response + "\n");
+                }
+                bufferedReader.close();
+
+                Log.d("test1", stringBuilder.toString());
+                return stringBuilder.toString();
+            } else {
+                Log.e("test2", connection.getResponseMessage());
+                return null;
+            }
+        } catch (Exception exception){
+            Log.e("test3", exception.toString());
+            return null;
+        } finally {
+            if (connection != null){
+                connection.disconnect();
             }
         }
-
-        return output.toString();
     }
 
     @Override
     protected String doInBackground(String... strings) {
         String data ="";
         try{
-            data = PostConsultaData(new URL("http://192.168.8.100/SX.Servicio.Generico/api/usuario/authenticate/true"));
+            if (getTipoPeticion().equals("POST")) {
+                data = PostConsultaData(new URL(config.ruta+getRutaPeticion()));
+            }else{
+                if(getTipoPeticion().equals("GET")){
+                    data = GetConsultaData(new URL(config.ruta+getRutaPeticion()));
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

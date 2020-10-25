@@ -29,7 +29,7 @@ public class Consultas {
         }
     }
 
-    public Usuario ObtenerUsuario(Context context){
+    public ArrayList<Usuario> ObtenerUsuario(Context context){
         ArrayList<Usuario> listUser = new ArrayList<>();
         config = new ConfigBd(context);
         SQLiteDatabase db = config.getReadableDatabase();
@@ -47,7 +47,6 @@ public class Consultas {
                     String NombreRol = cursorRes.getString(5);
 
                     listUser.add(new Usuario(Rut, Email, Nombre, Token, RolId, NombreRol));
-                    Log.d("query",listUser.toString());
                 }
 
             }catch (Exception ex){
@@ -55,6 +54,6 @@ public class Consultas {
             }
             db.close();
         }
-        return null;
+        return listUser;
     }
 }

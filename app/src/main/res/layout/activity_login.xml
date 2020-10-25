@@ -5,4 +5,29 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
+    <EditText
+        android:id="@+id/txtRut"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="30dp"
+        android:hint="@string/rut">
+    </EditText>
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="30dp"
+        android:hint="@string/password">
+    </EditText>
+    <Button
+        android:id="@+id/btnIngresar"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="30dp"
+        android:hint="@string/rut"
+        android:background="@color/colorPrimary">
+    </Button>
 </RelativeLayout>

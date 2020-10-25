@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Feria Virtual</string>
+    <string name="rut">RUT</string>
+    <string name="password">Password</string>
+    <string name="Ingresar_Login">Ingresar</string>
 </resources>

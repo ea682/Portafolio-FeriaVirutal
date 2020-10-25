@@ -11,29 +11,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class LoginU implements Coneccion.DonwloadInterface{
 
     Context context;
-    private String Rut;
-    private String password;
 
-    public String ConsultarUsuario(Context OrigenContext, String RutLogin, String PasswordLogin ){
+    public ArrayList<Usuario> ConsultarUsuario(Context OrigenContext, String RutLogin, String PasswordLogin ) throws JSONException, ExecutionException, InterruptedException {
         context = OrigenContext;
-        Rut = RutLogin;
-        password = PasswordLogin;
-        Coneccion con = new Coneccion();
+        //Ingresamos los datos del usuario.
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Rut", RutLogin);
+        jsonObject.put("password", PasswordLogin);
+
+        Coneccion con = new Coneccion("POST", "usuario/authenticate/true",jsonObject);
         con.delegate = this;
-        con.execute();
-       return null;
+        String RespuestaApi = con.execute().get();
+
+       return  ObtenerDatosUsuarioJson(RespuestaApi);
     }
 
     @Override
     public void onDownload(String data) {
+
+    }
+
+    private ArrayList<Usuario> ObtenerDatosUsuarioJson(String dataJson){
         ArrayList<Usuario> listUser = new ArrayList<>();
         try {
-            JSONObject jsonObject = new JSONObject(data);
-            Log.d("dat2", jsonObject.toString());
+            JSONObject jsonObject = new JSONObject(dataJson);
             JSONObject JsonData = jsonObject.getJSONObject("infoToken");
 
             String Rut = JsonData.getString("rut");
@@ -44,12 +50,11 @@ public class LoginU implements Coneccion.DonwloadInterface{
             String NombreRol = JsonData.getString("nombreRol");
 
             listUser.add(new Usuario(Rut, Email, Nombre, Token, RolId, NombreRol));
-            Log.d("datos",listUser.toString());
             Consultas consultas = new Consultas();
             consultas.AgregarUser(context, listUser.get(0));
-            consultas.ObtenerUsuario(context);
         } catch (JSONException e) {
             Log.d("Error Get JSON", e.toString());
         }
+        return listUser;
     }
 }
