@@ -39,19 +39,22 @@ public class LoginU implements Coneccion.DonwloadInterface{
     private ArrayList<Usuario> ObtenerDatosUsuarioJson(String dataJson){
         ArrayList<Usuario> listUser = new ArrayList<>();
         try {
-            JSONObject jsonObject = new JSONObject(dataJson);
-            JSONObject JsonData = jsonObject.getJSONObject("infoToken");
+            //Validamos que el resultado no este vacio
+            if(dataJson != null){
+                JSONObject jsonObject = new JSONObject(dataJson);
+                JSONObject JsonData = jsonObject.getJSONObject("infoToken");
 
-            String Rut = JsonData.getString("rut");
-            String Email = JsonData.getString("email");
-            String Nombre = JsonData.getString("nombre");
-            String Token = JsonData.getString("token");
-            int RolId = JsonData.getInt("rolId");
-            String NombreRol = JsonData.getString("nombreRol");
+                String Rut = JsonData.getString("rut");
+                String Email = JsonData.getString("email");
+                String Nombre = JsonData.getString("nombre");
+                String Token = JsonData.getString("token");
+                int RolId = JsonData.getInt("rolId");
+                String NombreRol = JsonData.getString("nombreRol");
 
-            listUser.add(new Usuario(Rut, Email, Nombre, Token, RolId, NombreRol));
-            Consultas consultas = new Consultas();
-            consultas.AgregarUser(context, listUser.get(0));
+                listUser.add(new Usuario(Rut, Email, Nombre, Token, RolId, NombreRol));
+                Consultas consultas = new Consultas();
+                consultas.AgregarUser(context, listUser.get(0));
+            }
         } catch (JSONException e) {
             Log.d("Error Get JSON", e.toString());
         }

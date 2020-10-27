@@ -13,7 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MenuAdministrador"></activity>
+        <activity android:name=".MenuConsultor"></activity>
+        <activity android:name=".MenuTramportista" />
+        <activity android:name=".MenuClienteInterno" />
+        <activity android:name=".MenuClienteExterno" />
+        <activity android:name=".MenuProductor" />
+        <activity android:name=".MenuAdministrador" />
         <activity android:name=".Login" />
         <activity android:name=".MainActivity">
             <intent-filter>

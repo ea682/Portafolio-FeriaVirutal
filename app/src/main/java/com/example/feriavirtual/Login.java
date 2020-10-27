@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,14 +39,24 @@ public class Login extends AppCompatActivity {
                     ArrayList<Usuario> GetUser =  loginU.ConsultarUsuario(getApplicationContext(), txtRut.getText().toString(), txtPassword.getText().toString());
                     if(!GetUser.isEmpty()){
                         Usuario user = GetUser.get(0);
-                        switch (user.getRolId()){
-                            case 0:
-                                intent = new Intent(Login.this, MenuAdministrador.class);
+                        //Redirecionamos al layout o vistar que pertenece.
+                                switch (user.getRolId()){
+                                    case 1:
+                                        intent = new Intent(Login.this, MenuAdministrador.class);
+                                        break;
+                                    case 2:
+                                        intent = new Intent(Login.this, MenuAdministrador.class);
+                                        break;
+                                    case 3:
+                                        intent = new Intent(Login.this, MenuAdministrador.class);
+                                        break;
+                                    case 4:
+                                        intent = new Intent(Login.this, MenuAdministrador.class);
+                                        break;
+                                    case 5:
+                                        intent = new Intent(Login.this, MenuAdministrador.class);
                                 break;
-                            case 1:
-                                intent = new Intent(Login.this, MenuAdministrador.class);
-                                break;
-                            case 2:
+                            case 6:
                                 intent = new Intent(Login.this, MenuAdministrador.class);
                                 break;
                             default:
@@ -53,11 +64,13 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Ups... ocurrio un problema, Intentelo mas tarde.", Toast.LENGTH_LONG);
                                 break;
                         }
-
+                        startActivity(intent);
                     }else{
-                        Toast.makeText(getApplicationContext(), "Error en los datos.", Toast.LENGTH_LONG);
+                        Log.d("testErrorLogin", GetUser.toString());
+                        Toast.makeText(getApplicationContext(), "Error en los datos.", Toast.LENGTH_LONG).show();
+
                     }
-                    startActivity(intent);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
