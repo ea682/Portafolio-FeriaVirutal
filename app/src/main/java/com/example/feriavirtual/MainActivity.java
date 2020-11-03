@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.feriavirtual.API.*;
 import com.example.feriavirtual.API.Store.Usuario;
@@ -22,7 +23,48 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //LoginU login = new LoginU();
-        //login.ConsultarUsuario(getApplicationContext());
+        Consultas consultasBd = new Consultas();
+
+        //Obtenemos al usuario guardado, en caso contrario lo enviamos al login.
+        ArrayList<Usuario> getUser = consultasBd.ObtenerUsuario(getApplicationContext());
+        Intent intent = null;
+        if(getUser.isEmpty()){
+            intent = new Intent(MainActivity.this, Login.class);
+
+        }else{
+            Usuario user = getUser.get(0);
+            //Redirecionamos al layout o vista que pertenece.
+            switch (user.getRolId()) {
+                case 1:
+                    intent = new Intent(MainActivity.this, MenuAdministrador.class);
+                    break;
+                case 2:
+                    intent = new Intent(MainActivity.this, MenuProductor.class);
+                    break;
+                case 3:
+                    intent = new Intent(MainActivity.this, MenuClienteExterno.class);
+                    break;
+                case 4:
+                    intent = new Intent(MainActivity.this, MenuClienteInterno.class);
+                    break;
+                case 5:
+                    intent = new Intent(MainActivity.this, MenuTramportista.class);
+                    break;
+                case 6:
+                    intent = new Intent(MainActivity.this, MenuConsultor.class);
+                    break;
+                default:
+                    //intent = new Intent(Login.this, Login.class);
+                    Toast.makeText(getApplicationContext(), "Ups... ocurrio un problema, Intentelo mas tarde.", Toast.LENGTH_LONG);
+                    break;
+            }
+        }
+
+        try {
+            startActivity(intent);
+        }catch (Exception ex){
+
+        }
+
     }
 }

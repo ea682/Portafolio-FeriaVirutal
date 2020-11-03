@@ -39,21 +39,54 @@ public class Coneccion extends AsyncTask<String, Void, String>{
     public interface DonwloadInterface{
         void onDownload(String data);
     }
+
+
+    public String testGet(URL urls){
+        URL url;
+        HttpURLConnection urlConnection = null;
+        try {
+            url = new URL(urls.toString());
+
+            urlConnection = (HttpURLConnection) url
+                    .openConnection();
+
+            InputStream in = urlConnection.getInputStream();
+
+            InputStreamReader isw = new InputStreamReader(in);
+
+            int data = isw.read();
+            while (data != -1) {
+                char current = (char) data;
+                data = isw.read();
+                Log.d("ttt"  , Character.toString(current));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+        return "";
+    }
     public String GetConsultaData(URL urls) throws IOException {
         HttpURLConnection connection = null;
 
         try {
+            Log.d("ruta", urls.toString());
             URL url=new URL(urls.toString());
             connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setDoInput(true);
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Accept", "application/json");
-            OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
-            streamWriter.write(getJsonPeticion().toString());
-            streamWriter.flush();
+            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjI1MTgwMDM4LTMiLCJuYmYiOjE2MDQ0NDQzMzcsImV4cCI6MTYzNTk4MDMzNywiaWF0IjoxNjA0NDQ0MzM3LCJpc3MiOiIxMWY3NGVmNC1hZGMzLTQ5YjAtYTZmOS1mNGE0YWFkMGY4MzIifQ.i_ReSawrRPy-TexsjzLIeyA4CNORJLkPpV0iC3RjxkA");
+            //OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
+            //streamWriter.write(getJsonPeticion().toString());
+            //streamWriter.flush();
             StringBuilder stringBuilder = new StringBuilder();
+            Log.d("rest", String.valueOf(connection.getResponseCode()));
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
                 InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
                 BufferedReader bufferedReader = new BufferedReader(streamReader);
@@ -90,10 +123,13 @@ public class Coneccion extends AsyncTask<String, Void, String>{
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjI1MTgwMDM4LTMiLCJuYmYiOjE2MDQ0NDQzMzcsImV4cCI6MTYzNTk4MDMzNywiaWF0IjoxNjA0NDQ0MzM3LCJpc3MiOiIxMWY3NGVmNC1hZGMzLTQ5YjAtYTZmOS1mNGE0YWFkMGY4MzIifQ.i_ReSawrRPy-TexsjzLIeyA4CNORJLkPpV0iC3RjxkA");
             OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
             streamWriter.write(getJsonPeticion().toString());
+            Log.d("envio", getJsonPeticion().toString());
             streamWriter.flush();
             StringBuilder stringBuilder = new StringBuilder();
+            Log.d("rest", String.valueOf(connection.getResponseCode()));
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
                 InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
                 BufferedReader bufferedReader = new BufferedReader(streamReader);
@@ -127,7 +163,7 @@ public class Coneccion extends AsyncTask<String, Void, String>{
                 data = PostConsultaData(new URL(config.ruta+getRutaPeticion()));
             }else{
                 if(getTipoPeticion().equals("GET")){
-                    data = GetConsultaData(new URL(config.ruta+getRutaPeticion()));
+                    data = testGet(new URL(config.ruta+getRutaPeticion()));
                 }
             }
 

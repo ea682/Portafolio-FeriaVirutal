@@ -45,20 +45,20 @@ public class Login extends AppCompatActivity {
                                         intent = new Intent(Login.this, MenuAdministrador.class);
                                         break;
                                     case 2:
-                                        intent = new Intent(Login.this, MenuAdministrador.class);
+                                        intent = new Intent(Login.this, MenuProductor.class);
                                         break;
                                     case 3:
-                                        intent = new Intent(Login.this, MenuAdministrador.class);
+                                        intent = new Intent(Login.this, MenuClienteExterno.class);
                                         break;
                                     case 4:
-                                        intent = new Intent(Login.this, MenuAdministrador.class);
+                                        intent = new Intent(Login.this, MenuClienteInterno.class);
                                         break;
                                     case 5:
-                                        intent = new Intent(Login.this, MenuAdministrador.class);
+                                        intent = new Intent(Login.this, MenuTramportista.class);
                                 break;
                             case 6:
-                                intent = new Intent(Login.this, MenuAdministrador.class);
-                                break;
+                                intent = new Intent(Login.this, MenuConsultor.class);
+                                    break;
                             default:
                                 //intent = new Intent(Login.this, Login.class);
                                 Toast.makeText(getApplicationContext(), "Ups... ocurrio un problema, Intentelo mas tarde.", Toast.LENGTH_LONG);

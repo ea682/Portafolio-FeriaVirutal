@@ -13,12 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MenuConsultor"></activity>
+        <activity android:name=".MenuClienteExterno"></activity>
+        <activity
+            android:name=".MenuAdministrador"
+            android:label="@string/title_activity_menu_administrador"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MenuClienteExterno2"
+            android:label="@string/title_activity_menu_cliente_externo2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Menu_Administrador"
+            android:label="@string/title_activity_menu__administrador"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MenuConsultor" />
         <activity android:name=".MenuTramportista" />
         <activity android:name=".MenuClienteInterno" />
-        <activity android:name=".MenuClienteExterno" />
         <activity android:name=".MenuProductor" />
-        <activity android:name=".MenuAdministrador" />
         <activity android:name=".Login" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -6,11 +6,4 @@
     android:layout_height="match_parent"
     tools:context=".MenuAdministrador">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hola soy un administrador"
-        tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="214dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
