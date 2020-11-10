@@ -24,7 +24,7 @@ public class LoginU implements Coneccion.DonwloadInterface{
         jsonObject.put("Rut", RutLogin);
         jsonObject.put("password", PasswordLogin);
 
-        Coneccion con = new Coneccion("POST", "usuario/authenticate/true",jsonObject);
+        Coneccion con = new Coneccion("POST", "usuario/authenticate/true",jsonObject, "");
         con.delegate = this;
         String RespuestaApi = con.execute().get();
 

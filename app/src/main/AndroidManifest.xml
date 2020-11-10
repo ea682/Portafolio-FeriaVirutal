@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MenuClienteExterno"></activity>
+        <activity android:name=".AgregarSolicitudCompra"></activity>
+        <activity android:name=".DetalleSolicitudCompra" />
+        <activity android:name=".MenuClienteExterno" />
         <activity
             android:name=".MenuAdministrador"
             android:label="@string/title_activity_menu_administrador"

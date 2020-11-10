@@ -13,14 +13,16 @@ import java.nio.charset.Charset;
 
 public class Coneccion extends AsyncTask<String, Void, String>{
 
-   private String TipoPeticion;
+    private String TipoPeticion;
     private String RutaPeticion;
     private JSONObject jsonPeticion;
+    private String Token;
 
-    public Coneccion(String tipoPeticion, String rutaPeticion, JSONObject jsonPeticion) {
+    public Coneccion(String tipoPeticion, String rutaPeticion, JSONObject jsonPeticion, String token) {
         this.TipoPeticion = tipoPeticion;
         this.RutaPeticion = rutaPeticion;
         this.jsonPeticion = jsonPeticion;
+        this.Token = token;
     }
 
     public String getTipoPeticion() {
@@ -35,40 +37,15 @@ public class Coneccion extends AsyncTask<String, Void, String>{
         return jsonPeticion;
     }
 
+    public String getToken() {
+        return Token;
+    }
+
     public DonwloadInterface delegate;
     public interface DonwloadInterface{
         void onDownload(String data);
     }
 
-
-    public String testGet(URL urls){
-        URL url;
-        HttpURLConnection urlConnection = null;
-        try {
-            url = new URL(urls.toString());
-
-            urlConnection = (HttpURLConnection) url
-                    .openConnection();
-
-            InputStream in = urlConnection.getInputStream();
-
-            InputStreamReader isw = new InputStreamReader(in);
-
-            int data = isw.read();
-            while (data != -1) {
-                char current = (char) data;
-                data = isw.read();
-                Log.d("ttt"  , Character.toString(current));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-        return "";
-    }
     public String GetConsultaData(URL urls) throws IOException {
         HttpURLConnection connection = null;
 
@@ -81,12 +58,13 @@ public class Coneccion extends AsyncTask<String, Void, String>{
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjI1MTgwMDM4LTMiLCJuYmYiOjE2MDQ0NDQzMzcsImV4cCI6MTYzNTk4MDMzNywiaWF0IjoxNjA0NDQ0MzM3LCJpc3MiOiIxMWY3NGVmNC1hZGMzLTQ5YjAtYTZmOS1mNGE0YWFkMGY4MzIifQ.i_ReSawrRPy-TexsjzLIeyA4CNORJLkPpV0iC3RjxkA");
-            //OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
-            //streamWriter.write(getJsonPeticion().toString());
-            //streamWriter.flush();
+            if(!getToken().isEmpty()){
+                connection.setRequestProperty("Authorization", "Bearer " + getToken());
+            }
+            connection.setReadTimeout(15000);
+            connection.setConnectTimeout(15000);
+            connection.setDoOutput(false);
             StringBuilder stringBuilder = new StringBuilder();
-            Log.d("rest", String.valueOf(connection.getResponseCode()));
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
                 InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
                 BufferedReader bufferedReader = new BufferedReader(streamReader);
@@ -118,18 +96,21 @@ public class Coneccion extends AsyncTask<String, Void, String>{
         try {
             URL url=new URL(urls.toString());
             connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            if(!getToken().isEmpty()){
+                connection.setRequestProperty("Authorization", "Bearer " + getToken());
+                Log.d("Validacion",getToken());
+            }
+            connection.setReadTimeout(15000);
+            connection.setConnectTimeout(15000);
             connection.setDoOutput(true);
             connection.setDoInput(true);
-            connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjI1MTgwMDM4LTMiLCJuYmYiOjE2MDQ0NDQzMzcsImV4cCI6MTYzNTk4MDMzNywiaWF0IjoxNjA0NDQ0MzM3LCJpc3MiOiIxMWY3NGVmNC1hZGMzLTQ5YjAtYTZmOS1mNGE0YWFkMGY4MzIifQ.i_ReSawrRPy-TexsjzLIeyA4CNORJLkPpV0iC3RjxkA");
             OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
             streamWriter.write(getJsonPeticion().toString());
-            Log.d("envio", getJsonPeticion().toString());
             streamWriter.flush();
             StringBuilder stringBuilder = new StringBuilder();
-            Log.d("rest", String.valueOf(connection.getResponseCode()));
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
                 InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
                 BufferedReader bufferedReader = new BufferedReader(streamReader);
@@ -138,8 +119,7 @@ public class Coneccion extends AsyncTask<String, Void, String>{
                     stringBuilder.append(response + "\n");
                 }
                 bufferedReader.close();
-
-                Log.d("test1", stringBuilder.toString());
+                Log.d("responce", stringBuilder.toString());
                 return stringBuilder.toString();
             } else {
                 Log.e("test2", connection.getResponseMessage());
@@ -163,7 +143,7 @@ public class Coneccion extends AsyncTask<String, Void, String>{
                 data = PostConsultaData(new URL(config.ruta+getRutaPeticion()));
             }else{
                 if(getTipoPeticion().equals("GET")){
-                    data = testGet(new URL(config.ruta+getRutaPeticion()));
+                    data = GetConsultaData(new URL(config.ruta+getRutaPeticion()));
                 }
             }
 

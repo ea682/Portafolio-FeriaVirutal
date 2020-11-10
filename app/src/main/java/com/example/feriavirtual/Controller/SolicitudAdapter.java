@@ -1,6 +1,7 @@
 package com.example.feriavirtual.Controller;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.feriavirtual.API.SolicitudCompra;
+import com.example.feriavirtual.API.Store.SolicitudCompra;
 import com.example.feriavirtual.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SolicitudAdapter extends ArrayAdapter<SolicitudCompra> {
     private ArrayList<SolicitudCompra> solicitudList;
     private Context context;
     private int layoutId;
 
-    public SolicitudAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List<SolicitudCompra> objects) {
-        super(context, resource, textViewResourceId, objects);
+    public SolicitudAdapter(Context context, int resource, ArrayList<SolicitudCompra> objects) {
+        super(context, resource, objects);
 
         this.context = context;
         this.layoutId = resource;
@@ -41,7 +41,8 @@ public class SolicitudAdapter extends ArrayAdapter<SolicitudCompra> {
         SolicitudCompra solicitudCompra =  solicitudList.get(position);
 
         txtDescripcionView.setText(solicitudCompra.getDescripcion());
-        txtValorView.setText(solicitudCompra.getPrecioVenta());
+        //En caso de ser un numero da un error
+        txtValorView.setText(String.valueOf(solicitudCompra.getPrecioVenta()));
         return rootView;
     }
 }
