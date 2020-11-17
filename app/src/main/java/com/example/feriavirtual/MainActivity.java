@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity{
 
         }else{
             Usuario user = getUser.get(0);
+            Log.d("Administrador", String.valueOf(user.getRolId()));
             //Redirecionamos al layout o vista que pertenece.
             switch (user.getRolId()) {
                 case 1:

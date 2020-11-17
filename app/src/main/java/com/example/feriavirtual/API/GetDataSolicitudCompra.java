@@ -39,6 +39,18 @@ public class GetDataSolicitudCompra implements Coneccion.DonwloadInterface{
         return  RespuestaApi;
     }
 
+    public String ActualizarSolicitudCompra(Context OrigenContext, Usuario user, SolicitudCompra solicitud) throws JSONException, ExecutionException, InterruptedException {
+        context = OrigenContext;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Id", solicitud.getId());
+        jsonObject.put("PrecioVenta", solicitud.getPrecioVenta());
+        //jsonObject.put("PrecioVenta", solicitud.getPrecioVenta());
+        Coneccion con = new Coneccion("POST", "usuario/ActualizarPrecioSolicitudCompra/",jsonObject, user.getToken());
+        con.delegate = this;
+        String RespuestaApi = con.execute().get();
+        return  RespuestaApi;
+    }
+
     @Override
     public void onDownload(String data) {
 

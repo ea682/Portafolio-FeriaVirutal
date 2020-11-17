@@ -46,7 +46,15 @@ public class MenuClienteExterno extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     SolicitudCompra selectedSolicitudCompra = solicitudAdapter.getItem(position);
-                    Intent intent = new Intent(getApplicationContext(), DetalleSolicitudCompra.class);
+                    //Log.d("Precio", String.valueOf(selectedSolicitudCompra.getPrecioVenta()));
+                    Intent intent = null;
+                    if(selectedSolicitudCompra.getPrecioVenta() > 0){
+
+                        intent = new Intent(getApplicationContext(), DetalleSolicitudCompraValidacion.class);
+                    }else{
+                        intent = new Intent(getApplicationContext(), DetalleSolicitudCompra.class);
+                    }
+
                     intent.putExtra(SELECTED_SOLICITUD_COMPRA, (Parcelable) selectedSolicitudCompra);
                     startActivity(intent);
                 }

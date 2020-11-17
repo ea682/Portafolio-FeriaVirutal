@@ -17,4 +17,6 @@
     <string name="title_activity_menu__administrador">Menu_Administrador</string>
     <string name="title_activity_menu_administrador">MenuAdministrador</string>
     <string name="title_activity_menu_cliente_externo2">MenuClienteExterno2</string>
+    <string name="title_activity_navigation_drawer_feria_virtual">NavigationDrawerFeriaVirtual
+    </string>
 </resources>

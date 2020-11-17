@@ -13,7 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AgregarSolicitudCompra"></activity>
+        <activity android:name=".DetalleSolicitudCompraValidacion"></activity>
+        <activity android:name=".DetalleSolicitudCompraAdministrador" />
+        <activity
+            android:name=".NavigationDrawerFeriaVirtual"
+            android:label="@string/title_activity_navigation_drawer_feria_virtual"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AgregarSolicitudCompra" />
         <activity android:name=".DetalleSolicitudCompra" />
         <activity android:name=".MenuClienteExterno" />
         <activity
