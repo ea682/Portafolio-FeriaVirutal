@@ -16,28 +16,25 @@ import com.example.feriavirtual.API.Store.SolicitudCompra;
 import com.example.feriavirtual.API.Store.Usuario;
 import com.example.feriavirtual.BD.Consultas;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
-public class DetalleSolicitudCompraAdministrador extends AppCompatActivity {
+public class PagarSolicitudCompra extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detalle_solicitud_compra_administrador);
+        setContentView(R.layout.activity_pagar_solicitud_compra);
 
         TextView descripcion = (TextView) findViewById(R.id.txtdetailSolicitudDescripcion);
         TextView nombreEstado = (TextView) findViewById(R.id.txtDetalleSolicitudNombreEstado);
         EditText precioVenta = (EditText) findViewById(R.id.txtDetalleSolicitudPrecioVenta);
 
         Button btnVolver = (Button) findViewById(R.id.btnDetalleSolicitudVolver);
-        final Button btnEditarSolicitudCompra = (Button) findViewById(R.id.btnEditarSolicitudCompra);
+        final Button btnEditarSolicitudCompra = (Button) findViewById(R.id.btnPagar);
 
         Bundle extras = getIntent().getExtras();
         final SolicitudCompra solicitudCompra = extras.getParcelable(MenuAdministrador.SELECTED_SOLICITUD_COMPRA);
-        if(solicitudCompra != null){
+        if (solicitudCompra != null) {
             descripcion.setText(String.valueOf(solicitudCompra.getDescripcion()));
             precioVenta.setText(String.valueOf(solicitudCompra.getPrecioVenta()));
             nombreEstado.setText(String.valueOf(solicitudCompra.getNombreEstado()));
@@ -65,7 +62,7 @@ public class DetalleSolicitudCompraAdministrador extends AppCompatActivity {
                 GetDataSolicitudCompra updateSolicitudCompra = new GetDataSolicitudCompra();
                 try {
                     updateSolicitudCompra.PagarSolicitudCompra(getApplicationContext(), user, solicitudCompra);
-                    Toast.makeText(getApplicationContext(), "Se Envio Precio de Solicitud de compra", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "El pago se realizo con exito", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

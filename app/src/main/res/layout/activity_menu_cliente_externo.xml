@@ -18,4 +18,13 @@
         android:background="@color/colorPrimary"
         android:text="Agregar Solicitud">
     </Button>
+    <Button
+        android:id="@+id/btnListarSolicitudCompras"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="580dp"
+        android:layout_marginLeft="40dp"
+        android:background="@color/colorPrimary"
+        android:text="Listar solicitudes compra">
+    </Button>
 </RelativeLayout>

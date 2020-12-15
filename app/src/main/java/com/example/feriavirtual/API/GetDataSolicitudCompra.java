@@ -76,11 +76,32 @@ public class GetDataSolicitudCompra implements Coneccion.DonwloadInterface{
         context = OrigenContext;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("NombreProducto", nombreProducto);
-        jsonObject.put("Cantidad", cantidad);
+        jsonObject.put("Cantidad", Integer.parseInt(cantidad));
         jsonObject.put("Descripcion", descripcion);
         jsonObject.put("SolicitudCompraId", solicitud.getId());
         Log.d("json subasta", jsonObject.toString());
         Coneccion con = new Coneccion("POST", "usuario/AgregarProcesoVentaExterna",jsonObject, user.getToken());
+        con.delegate = this;
+        String RespuestaApi = con.execute().get();
+        return  RespuestaApi;
+    }
+
+    public ArrayList<SolicitudCompra> ListaSolicitudesCompraPorFinalizar(Context OrigenContext, Usuario user) throws JSONException, ExecutionException, InterruptedException {
+        context = OrigenContext;
+        JSONObject jsonObject = new JSONObject();
+        Coneccion con = new Coneccion("GET", "ClienteExterno/ListarSolicitudCompraPorFinalizar",jsonObject, user.getToken());
+        con.delegate = this;
+        String RespuestaApi = con.execute().get();
+        return  ObtenerDatosUsuarioJson(RespuestaApi);
+    }
+
+    public String PagarSolicitudCompra(Context OrigenContext, Usuario user, SolicitudCompra solicitud) throws JSONException, ExecutionException, InterruptedException {
+        context = OrigenContext;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("IdSolicitudCompra", solicitud.getId());
+        jsonObject.put("Monto", solicitud.getPrecioVenta());
+        Log.d("json subasta", jsonObject.toString());
+        Coneccion con = new Coneccion("POST", "ClienteExterno/PagarPedido",jsonObject, user.getToken());
         con.delegate = this;
         String RespuestaApi = con.execute().get();
         return  RespuestaApi;

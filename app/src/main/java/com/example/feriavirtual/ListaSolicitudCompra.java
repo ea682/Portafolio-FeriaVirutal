@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,22 +16,17 @@ import com.example.feriavirtual.API.Store.Usuario;
 import com.example.feriavirtual.BD.Consultas;
 import com.example.feriavirtual.Controller.SolicitudAdapter;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
-public class MenuClienteExterno extends AppCompatActivity {
+public class ListaSolicitudCompra extends AppCompatActivity {
 
     public final static String SELECTED_SOLICITUD_COMPRA = "Selected_Solicitud_Compra";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_cliente_externo);
+        setContentView(R.layout.activity_lista_solicitud_compra);
 
-        ListView listSolicitudesView = (ListView) findViewById(R.id.ListSolicitudes);
-        Button btnAgregarNuevaSolicitud = (Button) findViewById(R.id.btnAgregarSolicitud);
-        Button btnListaSolicitudCompra = (Button) findViewById(R.id.btnListarSolicitudCompras);
+        ListView listSolicitudesView = (ListView) findViewById(R.id.ListSolicitudesComprasFinalizar);
 
         Consultas con = new Consultas();
 
@@ -40,7 +34,7 @@ public class MenuClienteExterno extends AppCompatActivity {
         Usuario dataUser = user.get(0);
         try {
             GetDataSolicitudCompra data = new GetDataSolicitudCompra();
-            ArrayList<SolicitudCompra> listaSolicitudes = data.ConsutarSolicitudCompra(getApplicationContext(), dataUser);
+            ArrayList<SolicitudCompra> listaSolicitudes = data.ListaSolicitudesCompraPorFinalizar(getApplicationContext(), dataUser);
             final SolicitudAdapter solicitudAdapter = new SolicitudAdapter(this, R.layout.solicitudes_list_item, listaSolicitudes);
             listSolicitudesView.setAdapter(solicitudAdapter);
 
@@ -48,14 +42,7 @@ public class MenuClienteExterno extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     SolicitudCompra selectedSolicitudCompra = solicitudAdapter.getItem(position);
-                    //Log.d("Precio", String.valueOf(selectedSolicitudCompra.getPrecioVenta()));
-                    Intent intent = null;
-                    if(selectedSolicitudCompra.getEstadoId() == 2){
-
-                        intent = new Intent(getApplicationContext(), DetalleSolicitudCompraValidacion.class);
-                    }else{
-                        intent = new Intent(getApplicationContext(), DetalleSolicitudCompra.class);
-                    }
+                    Intent intent = new Intent(getApplicationContext(), PagarSolicitudCompra.class);
 
                     intent.putExtra(SELECTED_SOLICITUD_COMPRA, (Parcelable) selectedSolicitudCompra);
                     startActivity(intent);
@@ -64,20 +51,5 @@ public class MenuClienteExterno extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        btnAgregarNuevaSolicitud.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AgregarSolicitudCompra.class);
-                startActivity(intent);
-            }
-        });
-
-        btnListaSolicitudCompra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ListaSolicitudCompra.class);
-                startActivity(intent);
-            }
-        });
     }
 }
