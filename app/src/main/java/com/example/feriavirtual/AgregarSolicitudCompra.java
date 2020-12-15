@@ -29,7 +29,6 @@ public class AgregarSolicitudCompra extends AppCompatActivity {
 
 
         final TextView txtDescripcion = (TextView) findViewById(R.id.txtNuevaSolicitudDescripcion);
-        final TextView txtPrecioVenta = (TextView) findViewById(R.id.txtNuevaSolicitudPrecioVenta);
 
         Button btnAgregarNuevaSolicitud = (Button) findViewById(R.id.btnAgregarSolicitud);
         Button btnVolverSolicitud = (Button) findViewById(R.id.btnVolverSolicitud);
@@ -48,7 +47,7 @@ public class AgregarSolicitudCompra extends AppCompatActivity {
                 Consultas consulta = new Consultas();
                 ArrayList<Usuario> listUser = consulta.ObtenerUsuario(getApplicationContext());
                 Usuario user = listUser.get(0);
-                SolicitudCompra newSolicitud = new SolicitudCompra(0, txtDescripcion.getText().toString(), Integer.parseInt(txtPrecioVenta.getText().toString()), user.getRut(), 0, "");
+                SolicitudCompra newSolicitud = new SolicitudCompra(0, txtDescripcion.getText().toString(), 0, user.getRut(), 0, "");
                 GetDataSolicitudCompra solicitud = new GetDataSolicitudCompra();
                 try {
                     String respuesta = solicitud.AgregarSolicitudCompra(getApplicationContext(), user, newSolicitud);

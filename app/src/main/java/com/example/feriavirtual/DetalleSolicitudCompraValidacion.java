@@ -34,9 +34,31 @@ public class DetalleSolicitudCompraValidacion extends AppCompatActivity {
 
         Button btnVolver = (Button) findViewById(R.id.btnDetalleSolicitudVolver);
         Button btnNegarce = (Button) findViewById(R.id.btnNegado);
+        Button btnAceptar = (Button) findViewById(R.id.btnAceptado);
 
+        final GetDataSolicitudCompra updateSolicitudCompra = new GetDataSolicitudCompra();
+        Consultas consulta = new Consultas();
+        ArrayList<Usuario> listUser = consulta.ObtenerUsuario(getApplicationContext());
+        final Usuario user = listUser.get(0);
         Bundle extras = getIntent().getExtras();
         final SolicitudCompra solicitudCompra = extras.getParcelable(MenuClienteExterno.SELECTED_SOLICITUD_COMPRA);
+
+
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    updateSolicitudCompra.ActualizarSolicitudCompraAceptada(getApplicationContext(), user, solicitudCompra);
+                    Toast.makeText(getApplicationContext(), "Solicitud aceptada", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+
 
         if(solicitudCompra != null){
             descripcion.setText(String.valueOf(solicitudCompra.getDescripcion()));
@@ -56,22 +78,16 @@ public class DetalleSolicitudCompraValidacion extends AppCompatActivity {
         btnNegarce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Consultas consulta = new Consultas();
-                ArrayList<Usuario> listUser = consulta.ObtenerUsuario(getApplicationContext());
-                Usuario user = listUser.get(0);
+
 
                 //EditText precioVentaActualizar = (EditText) findViewById(R.id.txtDetalleSolicitudPrecioVenta);
                 //Log.d("ActualizarTexto", precioVentaActualizar.getText().toString());
                 solicitudCompra.setPrecioVenta(0);
-                GetDataSolicitudCompra updateSolicitudCompra = new GetDataSolicitudCompra();
+
                 try {
                     updateSolicitudCompra.ActualizarSolicitudCompra(getApplicationContext(), user, solicitudCompra);
                     Toast.makeText(getApplicationContext(), "Se rechaso solicitud de proceso de venta", Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

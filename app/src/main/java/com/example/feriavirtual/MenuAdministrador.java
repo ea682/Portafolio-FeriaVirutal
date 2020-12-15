@@ -46,8 +46,17 @@ public class MenuAdministrador extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     SolicitudCompra selectedSolicitudCompra = solicitudAdapter.getItem(position);
-                    Intent intent = new Intent(getApplicationContext(), DetalleSolicitudCompraAdministrador.class);
-                    intent.putExtra(SELECTED_SOLICITUD_COMPRA, (Parcelable) selectedSolicitudCompra);
+                    Intent intent = null;
+
+                    if(selectedSolicitudCompra.getEstadoId() == 3){
+                        intent = new Intent(getApplicationContext(), CrearSubasta.class);
+                        intent.putExtra(SELECTED_SOLICITUD_COMPRA, (Parcelable) selectedSolicitudCompra);
+                    }else{
+                        intent = new Intent(getApplicationContext(), DetalleSolicitudCompraAdministrador.class);
+                        intent.putExtra(SELECTED_SOLICITUD_COMPRA, (Parcelable) selectedSolicitudCompra);
+                    }
+
+
                     startActivity(intent);
                 }
             });

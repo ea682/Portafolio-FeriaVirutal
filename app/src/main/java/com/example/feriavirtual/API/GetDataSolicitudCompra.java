@@ -60,6 +60,32 @@ public class GetDataSolicitudCompra implements Coneccion.DonwloadInterface{
         return  RespuestaApi;
     }
 
+    public String ActualizarSolicitudCompraAceptada(Context OrigenContext, Usuario user, SolicitudCompra solicitud) throws JSONException, ExecutionException, InterruptedException {
+        context = OrigenContext;
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("Id", solicitud.getId());
+        //jsonObject.put("PrecioVenta", solicitud.getPrecioVenta());
+        Coneccion con = new Coneccion("POST", "ClienteExterno/ActualizarAceptacionPrecioVentaSolicitudCompra",jsonObject, user.getToken());
+        con.delegate = this;
+        String RespuestaApi = con.execute().get();
+        return  RespuestaApi;
+    }
+
+    public String CrearSubasta(Context OrigenContext, Usuario user, SolicitudCompra solicitud, String nombreProducto, String cantidad, String descripcion) throws JSONException, ExecutionException, InterruptedException {
+        context = OrigenContext;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("NombreProducto", nombreProducto);
+        jsonObject.put("Cantidad", cantidad);
+        jsonObject.put("Descripcion", descripcion);
+        jsonObject.put("SolicitudCompraId", solicitud.getId());
+        Log.d("json subasta", jsonObject.toString());
+        Coneccion con = new Coneccion("POST", "usuario/AgregarProcesoVentaExterna",jsonObject, user.getToken());
+        con.delegate = this;
+        String RespuestaApi = con.execute().get();
+        return  RespuestaApi;
+    }
+
     @Override
     public void onDownload(String data) {
 

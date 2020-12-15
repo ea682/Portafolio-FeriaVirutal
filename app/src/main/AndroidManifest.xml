@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DetalleSolicitudCompraValidacion"></activity>
+        <activity android:name=".ventaExterna"></activity>
+        <activity android:name=".CrearSubasta" />
+        <activity android:name=".DetalleSolicitudCompraValidacion" />
         <activity android:name=".DetalleSolicitudCompraAdministrador" />
         <activity
             android:name=".NavigationDrawerFeriaVirtual"

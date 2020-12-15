@@ -92,9 +92,10 @@ public class Coneccion extends AsyncTask<String, Void, String>{
 
     public String PostConsultaData(URL urls){
         HttpURLConnection connection = null;
-
+        Log.d("url",urls.toString());
         try {
             URL url=new URL(urls.toString());
+
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             if(!getToken().isEmpty()){

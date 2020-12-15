@@ -66,11 +66,7 @@ public class DetalleSolicitudCompraAdministrador extends AppCompatActivity {
                 try {
                     updateSolicitudCompra.ActualizarSolicitudCompra(getApplicationContext(), user, solicitudCompra);
                     Toast.makeText(getApplicationContext(), "Se Envio Precio de Solicitud de compra", Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

@@ -48,7 +48,7 @@ public class MenuClienteExterno extends AppCompatActivity {
                     SolicitudCompra selectedSolicitudCompra = solicitudAdapter.getItem(position);
                     //Log.d("Precio", String.valueOf(selectedSolicitudCompra.getPrecioVenta()));
                     Intent intent = null;
-                    if(selectedSolicitudCompra.getPrecioVenta() > 0){
+                    if(selectedSolicitudCompra.getEstadoId() == 2){
 
                         intent = new Intent(getApplicationContext(), DetalleSolicitudCompraValidacion.class);
                     }else{
