@@ -26,6 +26,15 @@ public class GetDataSolicitudCompra implements Coneccion.DonwloadInterface{
         return  ObtenerDatosUsuarioJson(RespuestaApi);
     }
 
+    public ArrayList<SolicitudCompra> ConsutarSolicitudCompraAdministrador(Context OrigenContext, Usuario user ) throws JSONException, ExecutionException, InterruptedException {
+        context = OrigenContext;
+        JSONObject jsonObject = new JSONObject();
+        Coneccion con = new Coneccion("GET", "usuario/ListarSolicitudCompra",jsonObject, user.getToken());
+        con.delegate = this;
+        String RespuestaApi = con.execute().get();
+        return  ObtenerDatosUsuarioJson(RespuestaApi);
+    }
+
     public String AgregarSolicitudCompra(Context OrigenContext, Usuario user, SolicitudCompra solicitud) throws JSONException, ExecutionException, InterruptedException {
         context = OrigenContext;
         JSONObject jsonObject = new JSONObject();

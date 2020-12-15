@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -36,7 +37,8 @@ public class MenuAdministrador extends AppCompatActivity {
         Usuario dataUser = user.get(0);
         try {
             GetDataSolicitudCompra data = new GetDataSolicitudCompra();
-            ArrayList<SolicitudCompra> listaSolicitudes = data.ConsutarSolicitudCompra(getApplicationContext(), dataUser);
+            ArrayList<SolicitudCompra> listaSolicitudes = data.ConsutarSolicitudCompraAdministrador(getApplicationContext(), dataUser);
+            Log.d("data",listaSolicitudes.toString());
             final SolicitudAdapter solicitudAdapter = new SolicitudAdapter(this, R.layout.solicitudes_list_item, listaSolicitudes);
             listSolicitudesView.setAdapter(solicitudAdapter);
 
@@ -49,12 +51,7 @@ public class MenuAdministrador extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
     }
 }
